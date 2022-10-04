@@ -42,6 +42,9 @@ Route.get('/', async () => {
 Route.get('/hola', 'TwiliosController.Hola');
 
 Route.get('/axios', 'TwiliosController.Axios');
+
+Route.get('/specificmessage/:v', 'TwiliosController.specificMessage');
+
 Route.post('/sendmessage/:v?', 'TwiliosController.sendMessage');
 Route.post('/sendmessageurl', 'TwiliosController.sendMessageUrl');
 

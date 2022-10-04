@@ -31,6 +31,20 @@ export default class TwiliosController {
         })
         return res.data;
     }
+    public async specificMessage({params}){
+
+        const res =  await axios.get('https://api.twilio.com/2010-04-01/Accounts/AC193748db1fbb5c57427a6213626dd785/Messages.json',
+         {
+            auth: {
+                username: Env.get('TWILIO_ACCOUNT_SID'),
+                password: Env.get('TWILIO_AUTH_TOKEN')
+              }
+            
+        })
+        const {messages} = res.data;
+
+        return messages[params.v];
+    }
     public async sendMessage(ctx : HttpContextContract){
         const accountSid = Env.get('TWILIO_ACCOUNT_SID');
         const authToken = Env.get('TWILIO_AUTH_TOKEN');
@@ -42,20 +56,6 @@ export default class TwiliosController {
         }).done();
         return ctx.response.status(201).json({message: "Mensaje Enviado con exito"})
     }
-    public async sendMessageUrl(){
-        const params = new URLSearchParams()
-        params.append("To", "whatsapp:+5218721170691")
-        params.append("From", 'whatsapp:+14155238886')
-        params.append('body', 'Android Developer')
-        const config = {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            
-        }
-        const res = await axios.post('https://api.twilio.com/2010-04-01/Accounts/AC193748db1fbb5c57427a6213626dd785/Messages.json', params, config)
-        return res.data;
-
-    }
+   
 
 }
